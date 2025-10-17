@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUTORIAL JHAMILEY</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(to right, #240f13 0%, #260d11 20%, #4d1922 40%, #821717 60%, #290a0f 80%, #240f0f 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background: linear-gradient(to right, #240f0f 0%, #290a0f 20%, #821717 40%, #4d1922 60%, #260d11 80%, #240f13 100%);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        .video-container {
+            width: 100%;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            background: #240f13;
+        }
+        
+        .video-player {
+            width: 100%;
+            height: 600px;
+            background-color: #240f13;
+            display: block;
+        }
+        
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 15px 10px 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .control-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .progress {
+            height: 100%;
+            background: #821717;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        .time {
+            font-size: 12px;
+            color: white;
+            min-width: 40px;
+        }
+        
+        .button {
+            font-family: inherit;
+            background: #821717;
+            color: white;
+            padding: 0.35em 0;
+            font-size: 17px;
+            border: none;
+            border-radius: 0.7em;
+            letter-spacing: 0.08em;
+            position: relative;
+            display: flex;
+            align-content: center;
+            align-items: center;
+            overflow: hidden;
+            height: 2.5em;
+            padding-left: 2.8em;
+            padding-right: 0.92em;
+            margin: 20px auto 0;
+            width: 100%;
+            max-width: 300px;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .button .icon {
+            background: #0088cc;
+            height: 2em;
+            width: 2em;
+            border-radius: 2em;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            left: 0.4em;
+            transition: all 0.5s;
+        }
+
+        .icon svg {
+            transition: all 0.5s;
+            color: white;
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        .button:hover .icon svg {
+            transform: rotate(360deg);
+        }
+
+        .button:hover .icon {
+            width: calc(100% - 0.85rem);
+            border-radius: 0.5em;
+        }
+
+        .button:hover {
+            background: #4d1922;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .social-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .social-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            color: #ffffff;
+            font-weight: 500;
+        }
+        
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        /* Nuevos estilos para botones de redes sociales con efectos avanzados */
+        .social-btn {
+            --primary: #8255ff;
+            --neutral-1: #2e2e2e;
+            --neutral-2: #1a1a1a;
+            --radius: 12px;
+            
+            cursor: pointer;
+            border-radius: var(--radius);
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+            border: none;
+            box-shadow:
+                0 0.5px 0.5px 1px rgba(0, 0, 0, 0.2),
+                0 10px 20px rgba(0, 0, 0, 0.2),
+                0 4px 5px 0px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s ease;
+            width: 52px;
+            height: 52px;
+            font-family: "Galano Grotesque", Poppins, Montserrat, sans-serif;
+            font-style: normal;
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            text-decoration: none;
+            overflow: hidden;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.1);
+            box-shadow:
+                0 0 1px 2px rgba(255, 255, 255, 0.3),
+                0 15px 30px rgba(0, 0, 0, 0.3),
+                0 10px 3px -3px rgba(0, 0, 0, 0.04);
+        }
+
+        .social-btn:active {
+            transform: scale(1);
+            box-shadow:
+                0 0 1px 2px rgba(255, 255, 255, 0.3),
+                0 10px 3px -3px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-btn:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            border: 2px solid transparent;
+            background:
+                linear-gradient(var(--neutral-1), var(--neutral-2)) padding-box,
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45))
+                  border-box;
+            z-index: 0;
+            transition: all 0.4s ease;
+        }
+
+        .social-btn:hover::after {
+            transform: scale(1.05, 1.1);
+            box-shadow: inset 0 -1px 3px 0 rgba(50, 50, 50, 1);
+        }
+
+        .social-btn::before {
+            content: "";
+            inset: 4px 4px 4px 4px;
+            position: absolute;
+            background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
+            border-radius: 8px;
+            filter: blur(0.5px);
+            z-index: 2;
+        }
+
+        /* Outline animado */
+        .social-outline {
+            position: absolute;
+            border-radius: inherit;
+            overflow: hidden;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            inset: -2px -3.5px;
+        }
+
+        .social-outline::before {
+            content: "";
+            position: absolute;
+            inset: -100%;
+            background: conic-gradient(
+                from 180deg,
+                transparent 60%,
+                rgb(22, 22, 22) 80%,
+                transparent 100%
+            );
+            animation: spin 2s linear infinite;
+            animation-play-state: paused;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .social-btn:hover .social-outline {
+            opacity: 1;
+        }
+
+        .social-btn:hover .social-outline::before {
+            animation-play-state: running;
+        }
+
+        /* Estados y animaciones del ícono */
+        .social-state {
+            z-index: 3;
+            display: flex;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            width: 22px;
+            height: 22px;
+        }
+
+        .social-icon svg {
+            width: 100%;
+            height: 100%;
+            transition: all 0.3s ease;
+            filter: brightness(0) invert(1);
+        }
+
+        .social-btn:hover .social-icon {
+            transform: scale(1.2);
+        }
+
+        /* Animación de vuelo al hacer clic */
+        .social-btn:focus .social-icon svg {
+            animation: socialFly 0.8s ease forwards;
+        }
+
+        @keyframes socialFly {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) rotate(0) scale(1);
+            }
+            40% {
+                opacity: 1;
+                transform: translate(20px, -15px) rotate(45deg) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(60px, -40px) rotate(90deg) scale(0.5);
+            }
+        }
+
+        /* Colores específicos para cada red social */
+        .facebook {
+            --neutral-1: #3b5998;
+            --neutral-2: #2d4373;
+        }
+        
+        .whatsapp {
+            --neutral-1: #25D366;
+            --neutral-2: #128C7E;
+        }
+        
+        .instagram {
+            --neutral-1: #e4405f;
+            --neutral-2: #c13584;
+        }
+        
+        .youtube {
+            --neutral-1: #ff0000;
+            --neutral-2: #cc0000;
+        }
+        
+        .tiktok {
+            --neutral-1: #000000;
+            --neutral-2: #333333;
+        }
+        
+        .kick {
+            --neutral-1: #53FC18;
+            --neutral-2: #00C805;
+        }
+        
+        .telegram {
+            --neutral-1: #0088cc;
+            --neutral-2: #006699;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(36, 15, 19, 0.95);
+            z-index: 2;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .play-text {
+            font-size: 1.4rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 600;
+        }
+        
+        .youtube-watermark {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 0, 0, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 4;
+        }
+        
+        @media (max-width: 450px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .video-player {
+                height: 500px;
+            }
+            
+            .play-text {
+                font-size: 1.2rem;
+            }
+            
+            .social-btn {
+                width: 48px;
+                height: 48px;
+            }
+            
+            .social-icon {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .social-buttons {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cuadro principal con video y botón de chat -->
+    <div class="container">
+        <h1>TUTORIAL JHAMILEY</h1>
+        
+        <div class="video-container">
+            <!-- Video de YouTube SIN autoplay -->
+            <div id="youtubeIframe"></div>
+            
+            <!-- Overlay de reproducción - Solo texto -->
+            <div class="video-overlay" id="videoOverlay">
+                <div class="play-text">Haz clic para reproducir</div>
+            </div>
+            
+            <!-- Controles de video (SOLO pausa y progreso) -->
+            <div class="video-controls" id="videoControls" style="display: none;">
+                <button class="control-btn" id="playPauseBtn">❚❚</button>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="time" id="timeDisplay">0:00</div>
+            </div>
+            
+            <!-- Watermark de YouTube -->
+            <div class="youtube-watermark">YouTube</div>
+        </div>
+        
+        <a href="https://t.me/Jhamileyg" class="button" target="_blank">
+            <div class="icon">
+                <!-- NUEVO SVG del botón "Chatear con jhamiley" -->
+                <svg id="Livello_1" data-name="Livello 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129.677 106.969">
+                    <path d="M47.77,100.097l2.733-29.046.065.038c.126-.296.328-.543.328-.543,0,0,52.426-46.6,53.821-51.492.108-.379-.3-.566-.848-.4-3.482,1.281-63.844,39.4-70.506,43.607-.397.12-.812.142-1.224.104l13.724,37.986s1.265,2.61,2.802,3.434c-1.255-.888-.895-3.688-.895-3.688Z" fill="#c8daea" stroke-width="0"/>
+                    <path d="M51.025,72.496c-.304-.207-.503-.535-.546-.9-.033-.167.019-.342.089-.507l-.065-.038-2.733,29.046s-.359,2.8.895,3.688c.982.695,2.952.219,6.859-3.688,6.278-6.279,12.351-11.531,15.392-14.088-8.691-6.001-16.809-11.452-19.891-13.513Z" fill="#a9c6d8" stroke-width="0"/>
+                    <path d="M129.415,2.302c-.212-.975-.932-1.76-1.885-2.055-1.892-.719-5.1.362-5.1.362C122.43.609,8.813,41.446,2.324,45.969c-1.4.971-1.868,1.536-2.1,2.2-1.127,3.22,2.373,4.64,2.373,4.64l29.286,9.542c.085.015.171.006.256.014.412.038.827.016,1.224-.104,6.662-4.207,67.024-42.326,70.506-43.607.548-.166.956.021.848.4-1.395,4.892-53.821,51.492-53.821,51.492,0,0-.202.247-.328.543-.07.164-.122.339-.089.507.043.365.242.693.546.9,3.082,2.062,11.2,7.512,19.891,13.513,10.068,6.952,20.906,14.642,25.581,18.664,1.582,1.536,3.721,2.363,5.925,2.292,4.439-.167,5.678-5.043,5.678-5.043,0,0,20.708-83.328,21.4-94.493.069-1.093.16-1.79.169-2.542.036-.869-.05-1.739-.254-2.585Z" fill="#fff" stroke-width="0"/>
+                </svg>
+            </div>
+            Chatear con jhamiley
+        </a>
+    </div>
+
+    <!-- Sección de redes sociales FUERA del cuadro -->
+    <div class="social-section">
+        <div class="social-title">Sígueme en mis redes sociales</div>
+        <div class="social-buttons">
+            <a href="https://www.tiktok.com/@jhamileygamer61?_t=ZS-90RduVO8wwz&_r=1" class="social-btn tiktok" target="_blank">
+                <div class="social-outline"></div>
+                <div class="social-state">
+                    <div class="social-icon">
+                        <!-- SVG de TikTok -->
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.526V6.79a4.831 4.831 0 0 1-1.003-.104z"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://youtube.com/@jhamiley_12?si=GP6DSNNLR1LZQ9GD" class="social-btn youtube" target="_blank">
+                <div class="social-outline"></div>
+                <div class="social-state">
+                    <div class="social-icon">
+                        <!-- SVG de YouTube -->
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://whatsapp.com/channel/0029VatUWDn30LKRq0aylJ3u" class="social-btn whatsapp" target="_blank">
+                <div class="social-outline"></div>
+                <div class="social-state">
+                    <div class="social-icon">
+                        <!-- SVG de WhatsApp -->
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://www.instagram.com/jhamiley_12" class="social-btn instagram" target="_blank">
+                <div class="social-outline"></div>
+                <div class="social-state">
+                    <div class="social-icon">
+                        <!-- SVG de Instagram -->
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://kick.com/charapitas" class="social-btn kick" target="_blank">
+                <div class="social-outline"></div>
+                <div class="social-state">
+                    <div class="social-icon">
+                        <!-- NUEVO SVG de Kick -->
+                        <svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 343.111 385.35">
+                            <path d="M129.03,385.261c-41.259,0-82.518-.054-123.776.088-3.894.013-5.26-.391-5.254-4.946C.172,253.689.138,126.974.138.259,1.967.195,3.796.076,5.624.076c38.456-.011,76.912-.013,115.368-.004,7.988.002,8.09.098,8.096,8.061.017,23.764.104,47.529-.066,71.293-.034,4.803,1.699,6.474,6.421,6.364,9.817-.23,19.646-.214,29.463-.008,4.55.096,6.21-1.654,6.125-6.159-.195-10.3.047-20.607-.081-30.908-.053-4.247,1.631-5.932,5.933-5.859,10.318.175,20.645-.103,30.962.107,4.583.093,6.185-1.68,6.096-6.165-.199-10.133.096-20.276-.112-30.409C213.734,1.677,215.469-.016,220.239,0c38.789.13,77.578.124,116.367.005,4.612-.014,6.522,1.347,6.505,6.228-.136,38.887-.125,77.774-.01,116.661.013,4.517-1.598,6.243-6.113,6.162-10.152-.181-20.313.117-30.462-.113-4.699-.106-6.584,1.479-6.463,6.313.25,9.965-.122,19.945.147,29.909.133,4.936-1.562,6.881-6.601,6.753-9.816-.249-19.644.052-29.464-.108-4.34-.071-6.475,1.346-6.395,5.993.172,9.968.172,19.943,0,29.911-.08,4.646,2.052,6.066,6.393,5.995,9.819-.161,19.648.14,29.464-.108,5.038-.128,6.736,1.813,6.603,6.751-.269,9.964.103,19.944-.147,29.909-.121,4.833,1.761,6.419,6.462,6.316,10.316-.226,20.642.028,30.962-.087,4.039-.045,5.667,1.571,5.594,5.635-.16,8.971-.023,17.947-.039,26.921-.056,32.071-.125,64.143-.189,96.214h-128.893c-.027-12.133-.214-24.269,0-36.398.085-4.844-1.786-6.42-6.477-6.309-9.818.233-19.646.092-29.47.054-6.548-.025-6.989-.47-7.021-7.167-.044-9.474.006-18.948-.024-28.422-.022-6.926-.308-7.199-7.434-7.217-9.158-.023-18.316-.03-27.473.004-6.626.024-6.946.35-6.956,7.17-.039,26.095-.051,52.19-.074,78.285Z" fill="#f8f8f8" stroke-width="0"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://t.me/jhamygamer" class="social-btn telegram" target="_blank">
+                <div class="social-outline"></div>
+                <div class="social-state">
+                    <div class="social-icon">
+                        <!-- SVG de Telegram -->
+                        <svg id="Livello_1" data-name="Livello 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129.677 106.969">
+                            <path d="M47.77,100.097l2.733-29.046.065.038c.126-.296.328-.543.328-.543,0,0,52.426-46.6,53.821-51.492.108-.379-.3-.566-.848-.4-3.482,1.281-63.844,39.4-70.506,43.607-.397.12-.812.142-1.224.104l13.724,37.986s1.265,2.61,2.802,3.434c-1.255-.888-.895-3.688-.895-3.688Z" fill="#c8daea" stroke-width="0"/>
+                            <path d="M51.025,72.496c-.304-.207-.503-.535-.546-.9-.033-.167.019-.342.089-.507l-.065-.038-2.733,29.046s-.359,2.8.895,3.688c.982.695,2.952.219,6.859-3.688,6.278-6.279,12.351-11.531,15.392-14.088-8.691-6.001-16.809-11.452-19.891-13.513Z" fill="#a9c6d8" stroke-width="0"/>
+                            <path d="M129.415,2.302c-.212-.975-.932-1.76-1.885-2.055-1.892-.719-5.1.362-5.1.362C122.43.609,8.813,41.446,2.324,45.969c-1.4.971-1.868,1.536-2.1,2.2-1.127,3.22,2.373,4.64,2.373,4.64l29.286,9.542c.085.015.171.006.256.014.412.038.827.016,1.224-.104,6.662-4.207,67.024-42.326,70.506-43.607.548-.166.956.021.848.4-1.395,4.892-53.821,51.492-53.821,51.492,0,0-.202.247-.328.543-.07.164-.122.339-.089.507.043.365.242.693.546.9,3.082,2.062,11.2,7.512,19.891,13.513,10.068,6.952,20.906,14.642,25.581,18.664,1.582,1.536,3.721,2.363,5.925,2.292,4.439-.167,5.678-5.043,5.678-5.043,0,0,20.708-83.328,21.4-94.493.069-1.093.16-1.79.169-2.542.036-.869-.05-1.739-.254-2.585Z" fill="#fff" stroke-width="0"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="https://www.facebook.com/Nosotros000" class="social-btn facebook" target="_blank">
+                <div class="social-outline"></div>
+                <div class="social-state">
+                    <div class="social-icon">
+                        <!-- SVG de Facebook -->
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let player;
+        let isPlaying = false;
+        let progressInterval;
+        
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar la API de YouTube
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            
+            // Elementos DOM
+            const videoOverlay = document.getElementById('videoOverlay');
+            const videoControls = document.getElementById('videoControls');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const progressBar = document.getElementById('progressBar');
+            const progress = document.getElementById('progress');
+            const timeDisplay = document.getElementById('timeDisplay');
+            
+            // Configurar eventos
+            videoOverlay.addEventListener('click', playVideo);
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            progressBar.addEventListener('click', seekVideo);
+            
+            // Función para formatear el tiempo
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = Math.floor(seconds % 60);
+                return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+            }
+            
+            // Función para actualizar la barra de progreso
+            function updateProgressBar() {
+                if (!player || !isPlaying) return;
+                
+                const currentTime = player.getCurrentTime();
+                const duration = player.getDuration();
+                
+                if (duration > 0) {
+                    const percent = (currentTime / duration) * 100;
+                    progress.style.width = `${percent}%`;
+                    timeDisplay.textContent = formatTime(currentTime);
+                }
+            }
+            
+            // Función para reproducir el video
+            function playVideo() {
+                if (!player) return;
+                
+                videoOverlay.style.display = 'none';
+                videoControls.style.display = 'flex';
+                player.playVideo();
+                isPlaying = true;
+                playPauseBtn.textContent = '❚❚';
+                
+                // Iniciar actualización de la barra de progreso
+                progressInterval = setInterval(updateProgressBar, 500);
+            }
+            
+            // Función para pausar/reanudar el video
+            function togglePlayPause() {
+                if (!player) return;
+                
+                if (isPlaying) {
+                    player.pauseVideo();
+                    playPauseBtn.textContent = '▶';
+                    clearInterval(progressInterval);
+                } else {
+                    player.playVideo();
+                    playPauseBtn.textContent = '❚❚';
+                    progressInterval = setInterval(updateProgressBar, 500);
+                }
+                
+                isPlaying = !isPlaying;
+            }
+            
+            // Función para buscar en el video
+            function seekVideo(e) {
+                if (!player) return;
+                
+                const rect = progressBar.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                const duration = player.getDuration();
+                const newTime = percent * duration;
+                
+                player.seekTo(newTime, true);
+                updateProgressBar();
+            }
+            
+            // API de YouTube
+            window.onYouTubeIframeAPIReady = function() {
+                player = new YT.Player('youtubeIframe', {
+                    height: '600',
+                    width: '100%',
+                    videoId: 'Y38epaC_aMc',
+                    playerVars: {
+                        'autoplay': 0,
+                        'controls': 0,
+                        'modestbranding': 1,
+                        'rel': 0,
+                        'showinfo': 0
+                    },
+                    events: {
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            };
+            
+            function onPlayerStateChange(event) {
+                if (event.data === YT.PlayerState.ENDED) {
+                    isPlaying = false;
+                    playPauseBtn.textContent = '▶';
+                    clearInterval(progressInterval);
+                    progress.style.width = '0%';
+                    timeDisplay.textContent = '0:00';
+                    videoOverlay.style.display = 'flex';
+                    videoControls.style.display = 'none';
+                } else if (event.data === YT.PlayerState.PAUSED) {
+                    isPlaying = false;
+                    playPauseBtn.textContent = '▶';
+                    clearInterval(progressInterval);
+                } else if (event.data === YT.PlayerState.PLAYING) {
+                    isPlaying = true;
+                    playPauseBtn.textContent = '❚❚';
+                    progressInterval = setInterval(updateProgressBar, 500);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
